@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "terraform-mcp-server"
+version = "0.1.0"
+description = "Simplified Terraform MCP server for public registry"
+authors = [{ name = "Qvakk", email = "quoc@example.com" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=0.1.0",
+    "requests>=2.31.0",
+]
+
+[project.scripts]
+terraform-mcp-server = "terraform_mcp_server.server:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["terraform_mcp_server*"]
