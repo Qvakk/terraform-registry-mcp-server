@@ -5,20 +5,20 @@ A Model Context Protocol (MCP) server that provides comprehensive access to the 
 ## Features
 
 ### Module Tools
-- 🔍 **search_modules** - Search for Terraform modules by name or keywords
-- 📦 **get_module_details** - Get detailed information about a specific module
-- 🏷️ **get_latest_module_version** - Get the latest version of a module
-- 📋 **list_module_versions** - List all available versions of a module
+- **search_modules** - Search for Terraform modules by name or keywords
+- **get_module_details** - Get detailed information about a specific module
+- **get_latest_module_version** - Get the latest version of a module
+- **list_module_versions** - List all available versions of a module
 
 ### Provider Tools
-- 🔍 **search_providers** - Search for Terraform providers
-- 📦 **get_provider_details** - Get detailed information about a provider
-- 🏷️ **get_latest_provider_version** - Get the latest version of a provider
-- 📋 **list_provider_versions** - List all available versions of a provider
-- 📚 **get_provider_docs** - Fetch full provider documentation (setup, auth, version notes)
-- 📄 **get_provider_resource_docs** - Fetch complete resource docs (args, attributes, examples)
-- 📄 **get_provider_data_source_docs** - Fetch complete data source docs
-- 🔎 **search_provider_docs** - Search within provider documentation for specific errors, topics, or troubleshooting
+- **search_providers** - Search for Terraform providers
+- **get_provider_details** - Get detailed information about a provider
+- **get_latest_provider_version** - Get the latest version of a provider
+- **list_provider_versions** - List all available versions of a provider
+- **get_provider_docs** - Fetch full provider documentation (setup, auth, version notes)
+- **get_provider_resource_docs** - Fetch complete resource docs (args, attributes, examples)
+- **get_provider_data_source_docs** - Fetch complete data source docs
+- **search_provider_docs** - Search within provider documentation for specific errors, topics, or troubleshooting
 
 > **New!** Documentation tools now fetch the actual markdown content from the registry, including version-specific information, breaking changes, upgrade guides, and complete argument/attribute references.
 

@@ -1,50 +1,35 @@
 # Multi-stage build for Terraform MCP Server
-FROM python:3.12-slim AS builder
+FROM python:3.13-alpine3.22 AS builder
+
+RUN apk add --no-cache build-base libffi-dev
 
 WORKDIR /app
-
-# Install build dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy project files
 COPY pyproject.toml .
 COPY terraform_mcp_server ./terraform_mcp_server
 
-# Install Python dependencies
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -e .
+RUN python -m venv /opt/venv && \
+    /opt/venv/bin/pip install --no-cache-dir --upgrade pip && \
+    /opt/venv/bin/pip install --no-cache-dir .
 
 # Final stage
-FROM python:3.12-slim
+FROM python:3.13-alpine3.22
 
-WORKDIR /app
+RUN apk add --no-cache ca-certificates libffi
 
-# Install runtime dependencies only
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+COPY --from=builder /opt/venv /opt/venv
 
-# Copy from builder
-COPY --from=builder /app .
-RUN pip install --no-cache-dir -e .
-
-# Create non-root user
-RUN useradd -m -u 1000 mcp && chown -R mcp:mcp /app
+RUN adduser -D -u 1000 mcp && chown -R mcp:mcp /opt/venv
 
 USER mcp
 
-# Environment variables
+ENV PATH="/opt/venv/bin:$PATH"
 ENV PYTHONUNBUFFERED=1
 ENV PORT=3002
 ENV TRANSPORT_MODE=http
 
 EXPOSE 3002
 
-# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:3002/health', timeout=5)" || exit 1
+    CMD python -c "import socket; s = socket.create_connection(('localhost', 3002), timeout=5); s.close()" || exit 1
 
-# Run the server
 CMD ["terraform-mcp-server"]

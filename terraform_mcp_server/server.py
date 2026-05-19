@@ -11,6 +11,7 @@ Uses FastMCP from the official MCP SDK for simplified server creation.
 import logging
 import os
 import re
+import urllib.parse
 from typing import Any
 
 import requests
@@ -62,8 +63,6 @@ def _fetch_github_markdown(github_url: str) -> str:
     Raises:
         ValueError: If URL is not from GitHub or is invalid
     """
-    import urllib.parse
-    
     # Validate it's a GitHub URL
     if not github_url.startswith("https://github.com/"):
         raise ValueError("Only HTTPS GitHub URLs are allowed (https://github.com/...)")
@@ -116,8 +115,6 @@ def _validate_provider_name(namespace: str, name: str) -> None:
     Raises:
         ValueError: If names contain invalid characters
     """
-    import re
-    
     # Allow lowercase, numbers, hyphens, underscores
     pattern = r'^[a-z0-9_-]+$'
     
@@ -767,8 +764,6 @@ def search_provider_docs(
     Returns:
         Dictionary containing search results with matched sections from documentation
     """
-    import re
-    
     # Get the main provider documentation
     provider_docs = get_provider_docs(namespace, name, version)
     
